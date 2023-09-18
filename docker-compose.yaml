@@ -1,0 +1,17 @@
+version: '3.7'
+
+services:
+  db:
+    build: ./mysql/
+    container_name: first-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: test123
+      MYSQL_DATABASE: boards_test
+    volumes: 
+      - myvolume:/var/lib/mysql
+      - ./mysql:/docker-entrypoint-initdb.d
+
+                                         
+volumes:
+  myvolume:
