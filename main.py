@@ -36,27 +36,39 @@ def main(connector: Connector):
 			print("Invalid number")
 
 		elif option == Options.MenuPrincipal.BOARD_LIST:
-			BoardQueries.get_table_elements(connector,"BoardGames")
-			
+			try:
+				BoardQueries.get_table_elements(connector,"BoardGames")
+			except Exception as e:
+				print(e)
+
 		elif option == Options.MenuPrincipal.BOARD_ADD:
 			try:
 				BoardQueries.add_table_elements(connector, BoardGames.get_user_input(),"BoardGames")
 			except Exception as e:
 				print(e)
-			
+
 		elif option == Options.MenuPrincipal.BOARD_IMPORT_JSON:
-			pass
+			board_instances_list = BoardGames.import_from_json()
+			if len(board_instances_list)>0:
+				for new_board in board_instances_list:
+					BoardQueries.add_table_elements(connector, new_board,"BoardGames")
+
 		elif option == Options.MenuPrincipal.BOARD_DELETE:
-			pass
+			try:
+				BoardQueries.delete_element_by_name(connector, "BoardGames")
+			except Exception as e:
+				print(e)
+
 		elif option == Options.MenuPrincipal.LEAVE:
 			input("Good bye!!! Press enter to finish the program\n")
 			clear()
 			break
 		input("Press Enter to go back to the main menu\n")
+		
 		clear()
 
 
-
+#MoreFakeData.json
 if __name__ == "__main__":
 	connector = Connector.Connector()
 	main(connector)

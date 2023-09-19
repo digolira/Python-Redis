@@ -7,11 +7,21 @@ class BoardQueries():
     def __count_table_elements(connector, table_name: str):
         query = f'SELECT COUNT(*) from {table_name}'
         try:
-            connector.mycursor.execute(query)             #executing query separately
-            res = connector.mycursor.fetchone() #transforma numa tupla o resultado da query
+            connector.mycursor.execute(query)            
+            res = connector.mycursor.fetchone() 
             return res[0]
         except Exception as e:
             print(e) 
+
+    def __find_element_by_name(connector, board_name, table_name: str):
+        query = "SELECT * FROM %s WHERE name = '%s'"%(table_name,board_name.title())
+        connector.mycursor.execute(query)
+        res = connector.mycursor.fetchone()
+        if res[0]== 0:
+            print(f"BoardGame {board_name} not found")
+            return None
+        else:
+            return res[1]
 
     @classmethod
     def get_table_elements(cls, connector, table_name:str):
@@ -41,3 +51,27 @@ class BoardQueries():
             print("Board Game created.")
         except Exception as e:
             print(e)
+
+    @classmethod
+    def delete_element_by_name(cls, connector, table_name: str):
+        board_name = input("Insert Board Game Name: ")
+        result = cls.__find_element_by_name(connector, board_name, table_name)
+        if result != None:
+            opt = input("Board name: %s will be deleted. Press Y to confirm, any other key to leave.\n"%(result))
+            if (opt.lower() == 'y'):
+                try:
+                    query = """
+                    DELETE FROM %s
+                    WHERE
+                       name= '%s'
+                    """ %(table_name, board_name)
+                    connector.mycursor.execute(query)
+                    connector.db.commit()
+                    input("Delete done! Press enter to continue. ")
+                except Exception as e:
+                    print(e)
+                    input("Something wrong deleting data at the Database. Press enter to continue.")
+            else:
+                return "Leaving. Press enter to continue"
+        else:
+            return input ("Couldn't find this register. Press enter to continue")
