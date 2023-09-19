@@ -1,3 +1,4 @@
+from entities.BoardGames import BoardGames as BoardGames
 
 class BoardQueries():
     def __init__(self):
@@ -31,15 +32,12 @@ class BoardQueries():
             print("No registers found.\n")
 
     @classmethod
-    def add_table_elements(cls, connector, elements, table_name:str):
-        if elements is None:
-            return
+    def add_table_elements(cls, connector, board_game: BoardGames, table_name:str):
         query = f'INSERT INTO {table_name}(name, `rank`, rating, complexity, max_players, style) VALUES ' \
-                f'("{elements[0]}", {elements[1]}, {elements[2]}, {elements[3]}, {elements[4]}, "{elements[5]}")'
-        print(query)
+                f'("{board_game.name}", {board_game.rank}, {board_game.rating}, {board_game.complexity}, {board_game.max_players}, "{board_game.style}")'
         try:
             connector.mycursor.execute(query)
             connector.db.commit()
-            input("Board Game created. Press enter to continue.")
+            print("Board Game created.")
         except Exception as e:
             print(e)
