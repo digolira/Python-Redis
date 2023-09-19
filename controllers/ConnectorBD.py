@@ -1,5 +1,5 @@
 from time import sleep
-import mysql.connector  
+import mysql.connector
 
 class Connector():
     def __init__(self):
@@ -7,7 +7,7 @@ class Connector():
         while tries<4:
             try:
                 self.db = mysql.connector.connect(
-                        host="172.18.0.2",
+                        host="172.21.0.2",
                         user="root",
                         passwd ="test123",
                         database = "boards_test"

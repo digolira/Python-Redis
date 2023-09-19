@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   db:
-    build: ./mysql/
+    build: ./data/
     container_name: first-mysql
     restart: always
     environment:
@@ -10,7 +10,7 @@ services:
       MYSQL_DATABASE: boards_test
     volumes: 
       - myvolume:/var/lib/mysql
-      - ./mysql:/docker-entrypoint-initdb.d
+      - ./data:/docker-entrypoint-initdb.d
 
                                          
 volumes:
