@@ -1,3 +1,6 @@
+import json
+import os
+
 class BoardGames:
     def __init__(self, name: str, rank:int, rating: float, complexity: float, max_players: int, style: str):
         assert rank >= 0, f"Rank {rank} needs to be greater than or equal to zero!!"
@@ -19,7 +22,7 @@ class BoardGames:
         if len(elements) != 6:
             return "Input should contain exactly 6 elements separated by commas."     
         try:
-            newBoard = BoardGames(
+            new_board = BoardGames(
                 name=elements[0].strip().title(),
                 rank = int(elements[1]),
                 rating = float(elements[2]),
@@ -27,6 +30,34 @@ class BoardGames:
                 max_players = int(elements[4]),
                 style = elements[5].strip()
             )
-            return newBoard
+            return new_board
         except ValueError as e:
             return f"Error: {e}"
+        
+    @classmethod
+    def import_from_json(cls, file_name=None):
+        if file_name is None:
+            file_name = input("Insert name of file\n *Remember that the file must be inside the data folder:\n")
+        class_dir = os.path.dirname(os.path.abspath(__file__)) 
+        json_dir = os.path.abspath(os.path.join(class_dir, '..', 'data'))
+        json_file_path = os.path.join(json_dir, file_name) 
+
+        try:
+            with open(json_file_path, 'r') as file:
+                data = json.load(file)
+
+            board_instances_list = []
+            for item in data:
+                new_board = cls(
+                    name=item['name'],
+                    rank=item['rank'],
+                    rating=item['rating'],
+                    complexity=item['complexity'],
+                    max_players=item['max_players'],
+                    style=item['style']
+                )
+                board_instances_list.append(new_board)             
+            return board_instances_list
+        except FileNotFoundError:
+            print(f"File '{file_name}' not found.")
+            return []

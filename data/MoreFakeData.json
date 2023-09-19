@@ -1,0 +1,26 @@
+[
+    {
+      "name": "Power Grid",
+      "rank": 58,
+      "rating": 7.8,
+      "complexity": 3.26,
+      "max_players": 6,
+      "style": "Strategy"
+      },
+      {
+        "name": "Azul",
+        "rank": 73,
+        "rating": 7.8,
+        "complexity": 1.76,
+        "max_players": 4,
+        "style": "Family"
+      },
+      {
+        "name": "Codenames",
+        "rank": 123,
+        "rating": 7.6,
+        "complexity": 1.27,
+        "max_players": 8,
+        "style": "Family"
+      } 
+  ]
