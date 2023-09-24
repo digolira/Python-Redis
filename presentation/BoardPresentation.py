@@ -49,7 +49,8 @@ class BoardPresentation:
 				print("Ok, Delete operation aborted.")
 				return
 		else:
-			return "Couldn't find this register. Press enter to continue"
+			print("Couldn't find this register. Press enter to continue")
+			return 
 		
 	@classmethod
 	def import_from_json(cls,connector, table_name, file_name=None):
